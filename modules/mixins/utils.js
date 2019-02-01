@@ -15,6 +15,23 @@ const pushHash = (hash) => {
   }
 }
 
+const replaceHash = (hash) => {
+  hash = hash
+    ? hash.indexOf('#') === 0
+      ? hash
+      : '#' + hash
+    : '';
+
+  if (history.replaceState) {
+    let loc = window.location;
+    history.replaceState(null, null, hash ? loc.pathname + loc.search + hash
+      // remove hash
+      : loc.pathname + loc.search);
+  } else {
+    location.hash = hash;
+  }
+}
+
 const  getHash = () => {
   return window.location.hash.replace(/^#/, '');
 }
@@ -26,6 +43,7 @@ const scrollOffset = (c, t) => c === document ?
 
 export default {
   pushHash,
+  replaceHash,
   getHash,
   filterElementInContainer,
   scrollOffset
